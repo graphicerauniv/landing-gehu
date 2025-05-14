@@ -1,0 +1,36 @@
+{
+    "name": "landing-geu",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro",
+        "format": "prettier --plugin=prettier-plugin-astro --plugin=prettier-plugin-tailwindcss --write ."
+    },
+    "dependencies": {
+        "@astrojs/react": "^4.2.0",
+        "@formkit/auto-animate": "^0.8.2",
+        "@tailwindcss/vite": "^4.0.6",
+        "@types/react": "^19.0.8",
+        "@types/react-dom": "^19.0.3",
+        "@types/react-slick": "^0.23.13",
+        "astro": "^5.3.0",
+        "clsx": "^2.1.1",
+        "formik": "^2.4.6",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-simple-image-viewer": "^1.2.2",
+        "react-slick": "^0.30.3",
+        "slick-carousel": "^1.8.1",
+        "tailwind-merge": "^3.0.1",
+        "tailwindcss": "^4.0.6",
+        "yup": "^1.6.1"
+    },
+    "devDependencies": {
+        "prettier": "^3.5.1",
+        "prettier-plugin-astro": "^0.14.1",
+        "prettier-plugin-tailwindcss": "^0.6.11"
+    }
+}

@@ -1,0 +1,55 @@
+---
+import Document from "../layouts/Document.astro";
+import Landing from "../layouts/Landing.astro";
+
+import Hero from "../components/shared/Hero.tsx";
+import Courses from "../components/shared/Courses.tsx";
+import AdmissionProcess from "../components/shared/AdmissionProcess.tsx";
+import Slider from "../components/shared/Slider.tsx";
+// import AboutTheProgram from "../components/shared/AboutTheProgram.astro";
+import Banner from "../components/shared/Banner.tsx";
+import PlacementStats from "../components/shared/PlacementStats.tsx";
+import Accreditations from "../components/shared/Accreditations.tsx";
+import LifeAtGraphicEra from "../components/shared/LifeAtGraphicEra.tsx";
+import Faq from "../components/shared/Faq.tsx";
+import KeyHighlights from "../components/shared/KeyHighlights";
+import ScholarshipHighlights from "../components/shared/ScholarshipHighlights.astro";
+
+import { apply as course } from "../data/courses.ts";
+---
+
+<Document title={course.meta.title} description={course.meta.description}>
+    <Landing>
+        <!-- It is possible to overwrite to hide course and department section -->
+        <Hero campaignSource="GENERIC" client:load />
+
+        <!-- It is possible ot only display one department -->
+        <Courses client:load />
+
+        <!-- <Slider
+            path={"cgs"}
+            count={6}
+            imageFormat={"jpg"}
+            client:only="react"
+        /> -->
+
+        <ScholarshipHighlights />
+
+        <!-- It is possible to overwrite the admission process -->
+        <AdmissionProcess />
+
+        <!-- <AboutTheProgram info={course.aboutTheProgram} /> -->
+
+        <Banner client:load />
+
+        <KeyHighlights client:idle />
+
+        <PlacementStats client:load />
+
+        <Accreditations />
+
+        <LifeAtGraphicEra client:load />
+
+        <Faq faqs={course.faqs} client:load />
+    </Landing>
+</Document>
