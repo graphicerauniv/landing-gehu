@@ -37,8 +37,11 @@ interface CoursesProps {
 }
 const Courses = ({ onlyDepartment }: CoursesProps) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedField, setSelectedField] = useState(
+    const [selectedDepartment, setSelectedDepartment] = useState(
         onlyDepartment || DEPARTMENTS[0].name,
+    );
+    const [selectedCampus, setSelectedCampus] = useState(
+        DEPARTMENTS[0].university,
     );
 
     const [filteredCourses, setFilteredCourses] = useState<string[]>([]);
@@ -50,35 +53,33 @@ const Courses = ({ onlyDepartment }: CoursesProps) => {
 
     //Handle search
     useEffect(() => {
-        const coursesFromCategory = () => {
-            if (
-                selectedField === "Bhimtal" ||
-                selectedField === "Dehradun" ||
-                selectedField === "Haldwani"
-            ) {
-                return DEPARTMENTS.filter(
-                    (group) => group.university === selectedField,
-                ).flatMap((group) => group.courses);
-            } else {
-                const searchResults = DEPARTMENTS.filter(
-                    (group) => group.name === selectedField,
-                );
-                return searchResults.flatMap((group) => group.courses);
-            }
-        };
+        // Get all courses from particular campus
+        const departmentsFromParticularCampus = DEPARTMENTS.filter(
+            (dept) => dept.university === selectedCampus,
+        );
 
-        const courses = coursesFromCategory();
+        // Get all courses from the particular department
+        const coursesFromParticularDepartment_FLAT =
+            departmentsFromParticularCampus
+                .filter((dept) => dept.name === selectedDepartment)
+                .flatMap((dept) => dept.courses);
 
+        console.log({
+            departmentsFromParticularCampus,
+            coursesFromParticularDepartment_FLAT,
+        });
+        // If Search Term is not empty, filter the courses
         if (searchTerm !== "") {
-            const filtered = courses.filter((course) =>
-                course.toLowerCase().includes(searchTerm.toLowerCase()),
-            );
-            setFilteredCourses(filtered);
+            const filteredCourses_FLAT =
+                coursesFromParticularDepartment_FLAT.filter((course) =>
+                    course.toLowerCase().includes(searchTerm.toLowerCase()),
+                );
+            setFilteredCourses(filteredCourses_FLAT);
             return;
         }
 
-        setFilteredCourses(courses);
-    }, [searchTerm, selectedField]);
+        setFilteredCourses(coursesFromParticularDepartment_FLAT);
+    }, [searchTerm, selectedDepartment, selectedCampus]);
 
     return (
         <div className="relative w-full py-20">
@@ -88,52 +89,65 @@ const Courses = ({ onlyDepartment }: CoursesProps) => {
                     <h2 className="mb-6 text-3xl font-bold tracking-tight">
                         Courses Offered
                     </h2>
-                    <div className="flex gap-2 rounded-md border-2 border-neutral-200 bg-white px-2 py-1">
-                        <img
-                            src={MagnifyingGlassIcon.src}
-                            alt="Magnifying Glass"
-                            className="w-6 text-neutral-600"
-                        />
-                        <input
-                            type="text"
-                            placeholder="Search for a course"
-                            className="py-1 outline-none"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+                    <div className="flex items-center gap-4">
+                        <div className="mb-6 md:mb-0">
+                            <select
+                                className="rounded-md border-2 border-neutral-200 bg-white px-4 py-2 outline-none"
+                                value={selectedCampus}
+                                onChange={(e) => {
+                                    setSelectedCampus(e.target.value);
+                                    setSelectedDepartment(
+                                        DEPARTMENTS.filter(
+                                            (dept) =>
+                                                dept.university ===
+                                                e.target.value,
+                                        )[0].name,
+                                    );
+                                }}
+                            >
+                                <option value="Bhimtal">Bhimtal Campus</option>
+                                <option value="Dehradun">
+                                    Dehradun Campus
+                                </option>
+                                <option value="Haldwani">
+                                    Haldwani Campus
+                                </option>
+                            </select>
+                        </div>
+                        <div className="flex gap-2 rounded-md border-2 border-neutral-200 bg-white px-2 py-1">
+                            <img
+                                src={MagnifyingGlassIcon.src}
+                                alt="Magnifying Glass"
+                                className="w-6 text-neutral-600"
+                            />
+                            <input
+                                type="text"
+                                placeholder="Search for a course"
+                                className="py-1 outline-none"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div>
                     {!onlyDepartment && (
                         <div className="scrollbar-custom flex items-center justify-start gap-4 overflow-x-auto pb-2 font-medium text-neutral-800">
-                            {["Bhimtal", "Dehradun", "Haldwani"].map(
-                                (campus) => (
-                                    <button
-                                        className={`rounded-md border-b-2 border-zinc-300 px-4 py-1 ${
-                                            selectedField === campus
-                                                ? "border-neutral-100 bg-secondary text-white"
-                                                : "bg-white"
-                                        }`}
-                                        onClick={() => setSelectedField(campus)}
-                                    >
-                                        {campus}
-                                    </button>
-                                ),
-                            )}
-                            {DEPARTMENTS.map((field) => (
+                            {DEPARTMENTS.filter(
+                                (dept) => dept.university === selectedCampus,
+                            ).map((dept) => (
                                 <button
-                                    onClick={() => setSelectedField(field.name)}
+                                    onClick={() =>
+                                        setSelectedDepartment(dept.name)
+                                    }
                                     className={`rounded-md border-b-2 border-zinc-300 px-4 py-1 whitespace-nowrap ${
-                                        selectedField === field.name
+                                        selectedDepartment === dept.name
                                             ? "border-neutral-100 bg-secondary text-white"
                                             : "bg-white"
                                     }`}
-                                    key={field.name}
+                                    key={dept.name}
                                 >
-                                    {field.name
-                                        .replaceAll("-GEHU", " ")
-                                        .replaceAll("-", "(")}
-                                    {`)`}
+                                    {dept.name.split("-")[0]}
                                 </button>
                             ))}
                         </div>
