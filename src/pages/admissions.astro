@@ -14,6 +14,7 @@ import LifeAtGraphicEra from "../components/shared/LifeAtGraphicEra.tsx";
 import Faq from "../components/shared/Faq.tsx";
 import KeyHighlights from "../components/shared/KeyHighlights";
 import ScholarshipHighlights from "../components/shared/ScholarshipHighlights.astro";
+import CampusesHighlight from "../components/shared/CampusesHighlight.tsx";
 
 import { apply as course } from "../data/courses.ts";
 ---
@@ -34,6 +35,8 @@ import { apply as course } from "../data/courses.ts";
         /> -->
 
         <ScholarshipHighlights />
+
+        <CampusesHighlight client:load />
 
         <!-- It is possible to overwrite the admission process -->
         <AdmissionProcess />
