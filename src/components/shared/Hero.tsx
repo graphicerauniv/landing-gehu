@@ -115,8 +115,8 @@ const Hero = ({
         hidden: false,
     },
     defaultDepartmentAndCourse = {
-        department: "Computer Science Engineering-GEU",
-        course: "B.Tech Computer Science & Engineering (CSE)",
+        department: "Computer Science and Engineering-GEHU-Dehradun",
+        course: "B.Tech Computer Science Engineering",
         hidden: false,
     },
     fixState = false,
@@ -305,7 +305,7 @@ const Hero = ({
             );
 
             // Tracking Data
-            trackFormSubmission(window.location.href);
+            trackFormSubmission();
 
             // ERP API
             const pageURL = window.location.href;
@@ -480,21 +480,25 @@ const Hero = ({
                                                         );
 
                                                         // Updating Department and Course also as per the campus
-                                                        setFieldValue(
-                                                            "department",
+                                                        const firstDepartment =
                                                             DEPARTMENTS.find(
                                                                 (d) =>
                                                                     d.university ===
                                                                     campus,
-                                                            )?.name,
+                                                            )?.name;
+                                                        const firstCourse =
+                                                            DEPARTMENTS.find(
+                                                                (d) =>
+                                                                    d.name ===
+                                                                    firstDepartment,
+                                                            )?.courses[0];
+                                                        setFieldValue(
+                                                            "department",
+                                                            firstDepartment,
                                                         );
                                                         setFieldValue(
                                                             "course",
-                                                            DEPARTMENTS.find(
-                                                                (d) =>
-                                                                    d.university ===
-                                                                    campus,
-                                                            )?.courses[0],
+                                                            firstCourse,
                                                         );
                                                     }}
                                                 >

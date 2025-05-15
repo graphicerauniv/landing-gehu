@@ -65,18 +65,8 @@ export const prepareERPData = (
     };
 };
 
-export const trackFormSubmission = (url: string) => {
-    function gtag_report_conversion(url: string) {
-        var callback = function () {
-            if (typeof url != "undefined") {
-                window.location = url as unknown as Location;
-            }
-        };
-        window.gtag("event", "conversion", {
-            send_to: "AW-813011093/8u7_CM_4x9wBEJWh1oMD",
-            event_callback: callback,
-        });
-        return false;
-    }
-    gtag_report_conversion(url);
+export const trackFormSubmission = () => {
+    window.gtag("event", "conversion", {
+        send_to: "AW-813011093/8u7_CM_4x9wBEJWh1oMD",
+    });
 };
