@@ -26,30 +26,48 @@ type Highlight = {
 const HIGHLIGHTS: Highlight[] = [
     {
         image: keyHighlights3,
-        title: "Specialized Teaching from the",
-        titleHighlight: "Best Experts in the Country",
+        title: "Expert Faculty and",
+        titleHighlight: "Specialized Learning",
         summary:
-            "The academic rigor and the task of the creative transformation of an individual are the centre pieces of this program - both these targets are achievable only by ensuring just the right combination of teaching experts. Graphic Era ensures that students are taught by top faculty members in their respective fields, renowned for their excellence. ...",
+            "At GEHU, transformative education is driven by a team of world-class educators and industry veterans. Programs are taught by PhD holders, experienced researchers, and industry experts, many of whom are alumni of globally reputed institutions. Faculty members bring real-world insight, interdisciplinary knowledge, and hands-on learning methodologies to the classroom...",
         details:
-            "This is evident across all domains, starting from the Program Head, who is a seasoned management professional holding an undergraduate degree from Graphic Era in engineering and advanced qualifications from a prestigious institution.",
+            "This distinguished faculty base ensures students gain not only academic excellence, but also practical understanding aligned with current industry standards.",
     },
     {
         image: keyHighlights5,
         title: "Top Internships and",
-        titleHighlight: "Placements",
+        titleHighlight: "Exceptional Placement Opportunities",
         summary:
-            "We have held great pride in being one of the first few private Universities in India who took on the task of ensuring Top of the Line placements for our students, and with MBA, we will write a new success story for the world to see. The University is equipped with one of the best placement teams in the country and this...",
+            "Graphic Era Hill University (GEHU) has built a strong reputation for delivering outstanding placement support and internship opportunities. In 2025, the university reached a remarkable milestone, with the highest placement package recorded at INR 61.99 LPA. GEHU continues to be a preferred destination for prestigious recruiters across industries such as technology, finance, e-commerce, and consulting...",
         details:
-            "has resulted in Top Placements for our Flagship Programs consistently over the year, with the highest package for the year 2023 under Brand Graphic Era currently sits at INR 84.88 Lacs (Domestic Package - CSE).",
+            "Top Recruiters Include: Amazon, Google, Atlassian, Flipkart, PayPal, Visa.",
     },
     {
         image: keyHighlights4,
-        title: "NBA Accredited |",
-        titleHighlight: "AICTE Approved Degree",
+        title: "Recognitions and",
+        titleHighlight: "National Accolades",
         summary:
-            "Unlike some of the other B-Schools in India, Graphic Era (Deemed to be University) is offering a Full-Time NBA Accredited and AICTE Approved Degree and not a diploma. These accreditations are attained through rigorous compliances of the Academic Processes of the University and carry great relevance for students who visualise a career that spans across geographical...",
+            "Graphic Era Hill University has earned prestigious national recognition for its commitment to innovation and excellence in education. The university has been ranked among the Top 10 Universities in Digital Initiatives by the Ministry of Human Resource Development (MHRD), Government of India, highlighting its proactive integration of technology in teaching, learning, and administration...",
         details:
-            "boundaries. NBA Accredited and AICTE Approved Degrees enable students to enjoy easy Credit Transfers across Top International Universities, opening up unlimited avenues of Research and Employment Opportunities Globally.",
+            "Additionally, GEHU has been honored with the Best Upcoming Innovative University Award by the Corporate Council for Leadership and Awareness (CCLA). This accolade acknowledges the university's pioneering efforts in educational innovation, research, and global collaboration, establishing it as a rising leader in the Indian higher education landscape.",
+    },
+    {
+        image: keyHighlights1,
+        title: "Three Premier Campuses and",
+        titleHighlight: "National Recognition",
+        summary:
+            "Graphic Era Hill University (GEHU) is a leading institution with a strong presence across three prime campuses located in Dehradun, Haldwani, and Bhimtal. All campuses are strategically positioned in accessible, vibrant locations that offer a perfect blend of academic focus and natural beauty. Notably, the Bhimtal campus has been recognized among the Top 11 most beautiful campuses in India...",
+        details:
+            "This prestigious honor reflects its scenic charm, state-of-the-art infrastructure, and holistic learning environment. GEHU continues to make headlines by consistently breaking placement records, with students securing positions in top multinational companies and leading Indian firms.",
+    },
+    {
+        image: keyHighlights2,
+        title: "Global Exposure and",
+        titleHighlight: "International Reach",
+        summary:
+            "Graphic Era Hill University is deeply committed to equipping its students with global perspectives and cross-cultural learning experiences. The university hosts over 40 international interns and students on campus, fostering a diverse and inclusive academic environment. With a network of 20+ international partner universities, GEHU facilitates student exchange programs, dual degree opportunities, and collaborative research projects...",
+        details:
+            "Additionally, through its Global and Career Immersion Programs in more than 10 countries, students—particularly those enrolled in MBA and other postgraduate programs—gain valuable international exposure by travelling, learning, and interning abroad. These initiatives prepare students to thrive in a globally interconnected world.",
     },
 ];
 

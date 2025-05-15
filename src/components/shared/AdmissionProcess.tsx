@@ -33,13 +33,12 @@ export default function AdmissionProcess({ process }: AdmissionProcessProps) {
                                 <div>
                                     <strong>Application Form</strong> -
                                     Candidates can apply for admission to
-                                    Graphic Era (Deemed to be University) by
-                                    filling out the online application form
-                                    available on the university&apos;s website.
-                                    The application form usually requires
-                                    candidates to provide personal and academic
-                                    details, as well as upload scanned copies of
-                                    relevant documents
+                                    Graphic Era Hill University by filling out
+                                    the online application form available on the
+                                    university&apos;s website. The application
+                                    form usually requires candidates to provide
+                                    personal and academic details, as well as
+                                    upload scanned copies of relevant documents
                                 </div>
                             </li>
                             <li className="mb-2 flex gap-2 border-b border-neutral-200 pb-2">
@@ -60,10 +59,10 @@ export default function AdmissionProcess({ process }: AdmissionProcessProps) {
                                 <div>
                                     <strong>Shortlisted candidates</strong> - To
                                     be called for a personal interview, which
-                                    may be conducted through online or
-                                    in-person. The interview is usually aimed at
-                                    assessing the candidate&apos;s suitability
-                                    for the program applied for
+                                    may be conducted online or in-person. The
+                                    interview is usually aimed at assessing the
+                                    candidate&apos;s suitability for the program
+                                    applied for
                                 </div>
                             </li>
                             <li className="mb-2 flex gap-2 border-b border-neutral-200 pb-2">
