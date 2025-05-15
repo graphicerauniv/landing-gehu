@@ -251,7 +251,8 @@ const Hero = ({
 
         const utmParams = getUTMParams();
 
-        const registrationDateAndTime = new Date().toLocaleString("en-IN", {
+        const today = new Date();
+        const registrationDateAndTime = today.toLocaleString("en-IN", {
             timeZone: "Asia/Kolkata",
             hour12: true,
             day: "2-digit",
@@ -266,12 +267,14 @@ const Hero = ({
             ? String(`${internationalCode}${values.phone_number}`)
             : String(values.phone_number);
 
+        const phoneWithDateAndTime = `${phoneNumber}#${today.toISOString()}`;
+
         try {
             // AWS API
             const dataToSend = {
                 name: values.from_name,
                 email: values.from_email,
-                phone: phoneNumber,
+                phone: phoneWithDateAndTime,
                 campaign_source: `${campaignSource}-LP`,
                 ...utmParams,
                 department: values.department,
