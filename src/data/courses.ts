@@ -298,7 +298,7 @@ export const btech: Course = {
 
 export const apply = {
     meta: {
-        title: `Admission ${new Date().getFullYear()} | Graphic Era (Deemed to be University), Dehradun`,
+        title: `Admission ${new Date().getFullYear()} | Graphic Era Hill University, Dehradun`,
         description: `Start your future with the best university admissions in ${new Date().getFullYear()}! Get ready to apply for BTech, MBA, BBA and BCA programs. Apply now and get the best education!`,
     },
     faqs: [
