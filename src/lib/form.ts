@@ -2,11 +2,10 @@ import type { FormValues, UTMParams, ERPData } from "../types";
 
 declare global {
     interface Window {
-        fbq: (event: string, action: string) => void;
         gtag: (
             event: string,
             action: string,
-            data: Record<string, string>,
+            data: Record<string, any>,
         ) => void;
     }
 }
@@ -54,7 +53,7 @@ export const prepareERPData = (
         Field9: utmParams.utm_device,
         Field10: utmParams.utm_keyword,
         Field11: utmParams.adpos,
-        Center: "GEU-Dehradun",
+        Center: `GEU-${values.campus}`,
         Location: values.department,
         entity4: values.course,
         State: values.state,
@@ -66,9 +65,18 @@ export const prepareERPData = (
     };
 };
 
-export const trackFormSubmission = () => {
-    window.fbq("track", "SubmitApplication");
-    window.gtag("event", "GEU_Leads", {
-        send_to: "AW-823971696/_vxmCMSb05QBEPCe84gD",
-    });
+export const trackFormSubmission = (url: string) => {
+    function gtag_report_conversion(url: string) {
+        var callback = function () {
+            if (typeof url != "undefined") {
+                window.location = url as unknown as Location;
+            }
+        };
+        window.gtag("event", "conversion", {
+            send_to: "AW-813011093/8u7_CM_4x9wBEJWh1oMD",
+            event_callback: callback,
+        });
+        return false;
+    }
+    gtag_report_conversion(url);
 };

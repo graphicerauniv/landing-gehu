@@ -21,7 +21,7 @@ import { apply as course } from "../data/courses.ts";
 <Document title={course.meta.title} description={course.meta.description}>
     <Landing>
         <!-- It is possible to overwrite to hide course and department section -->
-        <Hero campaignSource="GENERIC" client:load />
+        <Hero campaignSource="GENERIC-HILL" client:load />
 
         <!-- It is possible ot only display one department -->
         <Courses client:load />
@@ -46,9 +46,9 @@ import { apply as course } from "../data/courses.ts";
 
         <PlacementStats client:load />
 
-        <Accreditations />
+        <!-- <Accreditations /> -->
 
-        <LifeAtGraphicEra client:load />
+        <!-- <LifeAtGraphicEra client:load /> -->
 
         <Faq faqs={course.faqs} client:load />
     </Landing>

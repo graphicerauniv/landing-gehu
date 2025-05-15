@@ -1,4 +1,5 @@
 export interface FormValues {
+    campus: string;
     from_name: string;
     from_email: string;
     phone_number: string;

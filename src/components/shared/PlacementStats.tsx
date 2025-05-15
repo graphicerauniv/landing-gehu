@@ -23,7 +23,7 @@ const placementStatsBig = {
     title: "2300+",
     subtitle: "Offers Above",
     description:
-        "Placements are at the core of University Education, especially in a rapidly growing country like India. Graphic Era (Deemed to be University) has earned widespread recognition since its establishment for maintaining an exceptional track record of consistently high student placements. At Graphic Era (Deemed to be University), we prioritize the preparation of our students for placements.",
+        "Placements are at the core of University Education, especially in a rapidly growing country like India. Graphic Era Hill University has earned widespread recognition since its establishment for maintaining an exceptional track record of consistently high student placements. At Graphic Era Hill University, we prioritize the preparation of our students for placements.",
 };
 
 const companies = [

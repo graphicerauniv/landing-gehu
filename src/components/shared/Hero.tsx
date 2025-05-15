@@ -20,6 +20,7 @@ import { DEPARTMENTS, PLACES } from "../../data/static";
 const OTP_API_URL = "https://geu.ac.in/mcc/api";
 
 const formSchema = Yup.object().shape({
+    campus: Yup.string().required("Campus is Required"),
     from_name: Yup.string()
         .min(2, "Too Short!")
         .max(50, "Too Long!")
@@ -45,16 +46,16 @@ const formSchema = Yup.object().shape({
 const defaultContent = {
     title: "Admissions Open 2025",
     description:
-        "Begin your Career at the university ranked 52 amongst top universities of India by NIRF 2024 Ranking with consistently high placements records and Highest package of Rs.61.99 Lacs at Atlassian.",
+        "Begin your Career at the university with consistently high placements records. Top recruiters include Amazon, Google, Atlassian, Flipkart, PayPal, Visa.",
 };
 const defaultStats = [
     {
-        value: "₹61.99 Lacs",
-        label: "Highest Placement\nAt Atlassian",
+        value: "₹47.88 Lacs",
+        label: "Highest Placement",
     },
     {
-        value: "Ranked 52",
-        label: "Amongst Top Universities\nof India by NIRF 2024",
+        value: "2300+",
+        label: "Campus Offers",
     },
 ];
 
@@ -141,6 +142,7 @@ const Hero = ({
     const isFormClosed = autoCloseOn ? new Date() > autoCloseOn : false;
 
     const initialValues: FormValues = {
+        campus: "Dehradun",
         from_name: "",
         from_email: "",
         phone_number: "",
@@ -276,6 +278,7 @@ const Hero = ({
                 course: values.course,
                 state: values.state,
                 city: values.city,
+                campus: values.campus,
                 ...(values.slot !== "" ? { slot: values.slot } : {}),
                 RegistrationTime: registrationDateAndTime,
                 ...(values.cgs_date !== ""
@@ -299,7 +302,7 @@ const Hero = ({
             );
 
             // Tracking Data
-            trackFormSubmission();
+            trackFormSubmission(window.location.href);
 
             // ERP API
             const pageURL = window.location.href;
@@ -333,6 +336,7 @@ const Hero = ({
                 city: values.city,
                 department: values.department,
                 course: values.course,
+                campus: values.campus,
                 utm_source: utmParams.utm_source,
                 utm_medium: utmParams.utm_medium,
                 utm_campaign: utmParams.utm_campaign,
@@ -423,6 +427,80 @@ const Hero = ({
                                 setFieldError,
                             }) => (
                                 <Form className="flex flex-col items-start gap-1">
+                                    {/* Campus Selector */}
+                                    <div className="mb-4 w-full">
+                                        <label className="mb-2 ml-2 block text-sm font-medium">
+                                            Campus
+                                        </label>
+                                        <div className="relative flex rounded-lg bg-white p-1 shadow-sm">
+                                            {/* Sliding background pill */}
+                                            <div
+                                                className="absolute rounded-lg bg-secondary transition-all duration-300 ease-in-out"
+                                                style={{
+                                                    left:
+                                                        values.campus ===
+                                                        "Dehradun"
+                                                            ? "1%"
+                                                            : values.campus ===
+                                                                "Haldwani"
+                                                              ? "33.33%"
+                                                              : "65%",
+                                                    width: "33.33%",
+                                                    height: "80%",
+                                                    top: "10%",
+                                                    zIndex: 0,
+                                                }}
+                                            />
+                                            {[
+                                                "Dehradun",
+                                                "Haldwani",
+                                                "Bhimtal",
+                                            ].map((campus) => (
+                                                <button
+                                                    key={campus}
+                                                    type="button"
+                                                    className={cn(
+                                                        "relative z-10 flex-1 cursor-pointer rounded-lg px-2 py-1 text-sm font-medium transition-all",
+                                                        {
+                                                            "text-white":
+                                                                values.campus ===
+                                                                campus,
+                                                            "text-zinc-600":
+                                                                values.campus !==
+                                                                campus,
+                                                        },
+                                                    )}
+                                                    onClick={() => {
+                                                        setFieldValue(
+                                                            "campus",
+                                                            campus,
+                                                        );
+
+                                                        // Updating Department and Course also as per the campus
+                                                        setFieldValue(
+                                                            "department",
+                                                            DEPARTMENTS.find(
+                                                                (d) =>
+                                                                    d.university ===
+                                                                    campus,
+                                                            )?.name,
+                                                        );
+                                                        setFieldValue(
+                                                            "course",
+                                                            DEPARTMENTS.find(
+                                                                (d) =>
+                                                                    d.university ===
+                                                                    campus,
+                                                            )?.courses[0],
+                                                        );
+                                                    }}
+                                                >
+                                                    {campus}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
                                     <FormField
                                         name="from_name"
                                         label="Full Name"
@@ -699,14 +777,14 @@ const Hero = ({
                                             <SelectField
                                                 name="department"
                                                 label="Department"
-                                                options={DEPARTMENTS.map(
-                                                    (d) => ({
-                                                        value: d.name,
-                                                        label: d.name.split(
-                                                            "-",
-                                                        )[0],
-                                                    }),
-                                                )}
+                                                options={DEPARTMENTS.filter(
+                                                    (d) =>
+                                                        d.university ===
+                                                        values.campus,
+                                                ).map((d) => ({
+                                                    value: d.name,
+                                                    label: d.name.split("-")[0],
+                                                }))}
                                                 errors={errors}
                                                 touched={touched}
                                                 onChange={(
@@ -716,6 +794,8 @@ const Hero = ({
                                                         "department",
                                                         e.target.value,
                                                     );
+
+                                                    // Updating Course also as per the department
                                                     setFieldValue(
                                                         "course",
                                                         DEPARTMENTS.find(

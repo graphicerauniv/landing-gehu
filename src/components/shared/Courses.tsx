@@ -51,8 +51,14 @@ const Courses = ({ onlyDepartment }: CoursesProps) => {
     //Handle search
     useEffect(() => {
         const coursesFromCategory = () => {
-            if (selectedField === "all") {
-                return DEPARTMENTS.flatMap((group) => group.courses);
+            if (
+                selectedField === "Bhimtal" ||
+                selectedField === "Dehradun" ||
+                selectedField === "Haldwani"
+            ) {
+                return DEPARTMENTS.filter(
+                    (group) => group.university === selectedField,
+                ).flatMap((group) => group.courses);
             } else {
                 const searchResults = DEPARTMENTS.filter(
                     (group) => group.name === selectedField,
@@ -100,16 +106,20 @@ const Courses = ({ onlyDepartment }: CoursesProps) => {
                 <div>
                     {!onlyDepartment && (
                         <div className="scrollbar-custom flex items-center justify-start gap-4 overflow-x-auto pb-2 font-medium text-neutral-800">
-                            <button
-                                className={`rounded-md border-b-2 border-zinc-300 px-4 py-1 ${
-                                    selectedField === "all"
-                                        ? "border-neutral-100 bg-secondary text-white"
-                                        : "bg-white"
-                                }`}
-                                onClick={() => setSelectedField("all")}
-                            >
-                                All
-                            </button>
+                            {["Bhimtal", "Dehradun", "Haldwani"].map(
+                                (campus) => (
+                                    <button
+                                        className={`rounded-md border-b-2 border-zinc-300 px-4 py-1 ${
+                                            selectedField === campus
+                                                ? "border-neutral-100 bg-secondary text-white"
+                                                : "bg-white"
+                                        }`}
+                                        onClick={() => setSelectedField(campus)}
+                                    >
+                                        {campus}
+                                    </button>
+                                ),
+                            )}
                             {DEPARTMENTS.map((field) => (
                                 <button
                                     onClick={() => setSelectedField(field.name)}
@@ -120,7 +130,10 @@ const Courses = ({ onlyDepartment }: CoursesProps) => {
                                     }`}
                                     key={field.name}
                                 >
-                                    {field.name.replaceAll("-GEU", " ")}
+                                    {field.name
+                                        .replaceAll("-GEHU", " ")
+                                        .replaceAll("-", "(")}
+                                    {`)`}
                                 </button>
                             ))}
                         </div>
