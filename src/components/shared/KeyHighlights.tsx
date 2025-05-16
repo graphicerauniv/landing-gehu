@@ -11,7 +11,6 @@ import keyHighlights2 from "../../assets/highlights/kh2.webp";
 import keyHighlights3 from "../../assets/highlights/kh3.webp";
 import keyHighlights4 from "../../assets/highlights/kh4.webp";
 import keyHighlights5 from "../../assets/highlights/kh5.webp";
-import keyHighlights6 from "../../assets/highlights/kh6.webp";
 
 import type { ImageMetadata } from "astro";
 
@@ -25,7 +24,7 @@ type Highlight = {
 
 const HIGHLIGHTS: Highlight[] = [
     {
-        image: keyHighlights3,
+        image: keyHighlights1,
         title: "Expert Faculty and",
         titleHighlight: "Specialized Learning",
         summary:
@@ -34,7 +33,7 @@ const HIGHLIGHTS: Highlight[] = [
             "This distinguished faculty base ensures students gain not only academic excellence, but also practical understanding aligned with current industry standards.",
     },
     {
-        image: keyHighlights5,
+        image: keyHighlights2,
         title: "Top Internships and",
         titleHighlight: "Exceptional Placement Opportunities",
         summary:
@@ -43,7 +42,7 @@ const HIGHLIGHTS: Highlight[] = [
             "Top Recruiters Include: Amazon, Google, Atlassian, Flipkart, PayPal, Visa.",
     },
     {
-        image: keyHighlights4,
+        image: keyHighlights3,
         title: "Recognitions and",
         titleHighlight: "National Accolades",
         summary:
@@ -52,7 +51,7 @@ const HIGHLIGHTS: Highlight[] = [
             "Additionally, GEHU has been honored with the Best Upcoming Innovative University Award by the Corporate Council for Leadership and Awareness (CCLA). This accolade acknowledges the university's pioneering efforts in educational innovation, research, and global collaboration, establishing it as a rising leader in the Indian higher education landscape.",
     },
     {
-        image: keyHighlights1,
+        image: keyHighlights4,
         title: "Three Premier Campuses and",
         titleHighlight: "National Recognition",
         summary:
@@ -61,7 +60,7 @@ const HIGHLIGHTS: Highlight[] = [
             "This prestigious honor reflects its scenic charm, state-of-the-art infrastructure, and holistic learning environment. GEHU continues to make headlines by consistently breaking placement records, with students securing positions in top multinational companies and leading Indian firms.",
     },
     {
-        image: keyHighlights2,
+        image: keyHighlights5,
         title: "Global Exposure and",
         titleHighlight: "International Reach",
         summary:
