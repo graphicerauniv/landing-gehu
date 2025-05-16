@@ -89,8 +89,8 @@ const Courses = ({ onlyDepartment }: CoursesProps) => {
                     <h2 className="mb-6 text-3xl font-bold tracking-tight">
                         Courses Offered
                     </h2>
-                    <div className="flex items-center gap-4">
-                        <div className="mb-6 md:mb-0">
+                    <div className="flex flex-wrap items-center gap-6">
+                        <div className="md:mb-0">
                             <select
                                 className="rounded-md border-2 border-neutral-200 bg-white px-4 py-2 outline-none"
                                 value={selectedCampus}

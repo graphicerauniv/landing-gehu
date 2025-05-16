@@ -310,12 +310,12 @@ export const apply = {
         {
             title: "What are the admission requirements?",
             content:
-                "Candidates can apply for admission to Graphic Era (Deemed to be University) by filling out the online application form available on the university's website and providing personal and academic details, and later uploading scanned copies of relevant documents.",
+                "Candidates can apply for admission to Graphic Era Hill University by filling out the online application form available on the university's website and providing personal and academic details, and later uploading scanned copies of relevant documents.",
         },
         {
             title: "Is there an application deadline for undergraduate courses? ",
             content:
-                "Depending on the program applied for, candidates may be required to appear for an entrance exam such as the  JEE Main, CAT, MAT, XAT, or NATA.  Shortlisted candidates may be called for a personal interview, which may be conducted online or in person.For some coveted courses, the seats fill up fast, and the deadlines vary. Please refer to https://geu.ac.in/admissions/ for the same. ",
+                "Depending on the program applied for, candidates may be required to appear for an entrance exam such as the  JEE Main, CAT, MAT, XAT, or NATA.  Shortlisted candidates may be called for a personal interview, which may be conducted online or in person.For some coveted courses, the seats fill up fast, and the deadlines vary. Please refer to https://gehu.ac.in/admissions/ for the same. ",
         },
         {
             title: "What are the different higher education options available for 12th-pass students?",
