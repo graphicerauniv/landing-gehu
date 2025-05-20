@@ -22,17 +22,17 @@ import { apply as course } from "../data/courses.ts";
 <Document title={course.meta.title} description={course.meta.description}>
     <Landing>
         <!-- It is possible to overwrite to hide course and department section -->
-        <Hero campaignSource="GENERIC-HILL" client:load />
+        <Hero campaignSource="GENERIC-HILL" displayCGS client:load />
 
         <!-- It is possible ot only display one department -->
         <Courses client:load />
 
-        <!-- <Slider
+        <Slider
             path={"cgs"}
-            count={6}
+            count={8}
             imageFormat={"jpg"}
             client:only="react"
-        /> -->
+        />
 
         <ScholarshipHighlights />
 

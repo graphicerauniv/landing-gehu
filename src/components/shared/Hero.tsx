@@ -62,16 +62,18 @@ const defaultStats = [
 
 //CGS
 const CGS_DATES = {
-    May10: "May 10, 2025",
-    May11: "May 11, 2025",
+    May24: "May 24, 2025",
+    May25: "May 25, 2025",
 };
 const CGS_DETAILS = [
-    { value: "CGS-Chandigarh", date: CGS_DATES.May11, desc: "Chandigarh" },
-    { value: "CGS-New-Delhi", date: CGS_DATES.May11, desc: "New Delhi" },
-    { value: "CGS-Ghaziabad", date: CGS_DATES.May10, desc: "Ghaziabad" },
-    { value: "CGS-Gurugram", date: CGS_DATES.May11, desc: "Gurugram" },
-    { value: "CGS-Ludhiana", date: CGS_DATES.May11, desc: "Ludhiana" },
-    { value: "CGS-Meerut", date: CGS_DATES.May10, desc: "Meerut" },
+    { value: "CGS-Bhopal", date: CGS_DATES.May25, desc: "Bhopal" },
+    { value: "CGS-Chandigarh", date: CGS_DATES.May25, desc: "Chandigarh" },
+    { value: "CGS-Guwahati", date: CGS_DATES.May24, desc: "Guwahati" },
+    { value: "CGS-Gwalior", date: CGS_DATES.May25, desc: "Gwalior" },
+    { value: "CGS-Kolkata", date: CGS_DATES.May25, desc: "Kolkata" },
+    { value: "CGS-Indore", date: CGS_DATES.May24, desc: "Indore" },
+    { value: "CGS-Kangra", date: CGS_DATES.May25, desc: "Kangra" },
+    { value: "CGS-Ludhiana", date: CGS_DATES.May24, desc: "Ludhiana" },
 ];
 
 interface HeroProps {
