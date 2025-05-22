@@ -69,7 +69,7 @@ const CGS_DETAILS = [
     { value: "CGS-Bhopal", date: CGS_DATES.May25, desc: "Bhopal" },
     { value: "CGS-Chandigarh", date: CGS_DATES.May25, desc: "Chandigarh" },
     { value: "CGS-Guwahati", date: CGS_DATES.May24, desc: "Guwahati" },
-    { value: "CGS-Gwalior", date: CGS_DATES.May25, desc: "Gwalior" },
+    { value: "CGS-Gwalior", date: CGS_DATES.May24, desc: "Gwalior" },
     { value: "CGS-Kolkata", date: CGS_DATES.May25, desc: "Kolkata" },
     { value: "CGS-Indore", date: CGS_DATES.May24, desc: "Indore" },
     { value: "CGS-Kangra", date: CGS_DATES.May25, desc: "Kangra" },
