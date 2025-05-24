@@ -53,7 +53,7 @@ export const prepareERPData = (
         Field9: utmParams.utm_device,
         Field10: utmParams.utm_keyword,
         Field11: utmParams.adpos,
-        Center: `GEU-${values.campus}`,
+        Center: `GEHU-${values.campus}`,
         Location: values.department,
         entity4: values.course,
         State: values.state,
