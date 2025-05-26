@@ -7,6 +7,7 @@ declare global {
             action: string,
             data: Record<string, any>,
         ) => void;
+        fbq: (event: string, action: string) => void;
     }
 }
 
@@ -69,4 +70,5 @@ export const trackFormSubmission = () => {
     window.gtag("event", "conversion", {
         send_to: "AW-813011093/AEiRCO6irJgBEJWh1oMD",
     });
+    window.fbq("track", "SubmitApplication");
 };
