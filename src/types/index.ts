@@ -11,6 +11,7 @@ export interface FormValues {
     cgs_date?: string;
     cgs_name?: string;
     phoneOtp?: string;
+    international_code?: string;
 }
 
 export interface UTMParams {

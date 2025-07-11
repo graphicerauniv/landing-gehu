@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import type { FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -19,29 +19,43 @@ import { DEPARTMENTS, PLACES } from "../../data/static";
 
 const OTP_API_URL = "https://geu.ac.in/mcc/api";
 
-const formSchema = Yup.object().shape({
-    campus: Yup.string().required("Campus is Required"),
-    from_name: Yup.string()
-        .min(2, "Too Short!")
-        .max(50, "Too Long!")
-        .matches(/^[a-zA-Z\s]+$/, "Full Name is not valid")
-        .required("Full Name is Required"),
-    from_email: Yup.string()
-        .email("Invalid Email")
-        .required("Email is Required"),
-    phone_number: Yup.string()
-        .required("Phone Number is required")
-        .matches(/^[0-9]{7,10}$/, "Phone number must be 7-10 digits")
-        .matches(/^[0-9]+$/, "Phone number is not valid"),
-    phoneOtp: Yup.string().optional(),
-    state: Yup.string().required("State is Required"),
-    city: Yup.string().required("City is Required"),
-    department: Yup.string().required("Department is Required"),
-    course: Yup.string().required("Course is Required"),
-    slot: Yup.string().optional(),
-    date: Yup.string().optional(),
-    cgs_name: Yup.string().optional(),
-});
+const createFormSchema = (
+    needInternationalCode: boolean,
+    internationalCode?: string,
+) =>
+    Yup.object().shape({
+        campus: Yup.string().required("Campus is Required"),
+        from_name: Yup.string()
+            .min(2, "Too Short!")
+            .max(50, "Too Long!")
+            .matches(/^[a-zA-Z\s]+$/, "Full Name is not valid")
+            .required("Full Name is Required"),
+        from_email: Yup.string()
+            .email("Invalid Email")
+            .required("Email is Required"),
+        phone_number: Yup.string()
+            .required("Phone Number is required")
+            .matches(
+                internationalCode ? /^[0-9]{7,10}$/ : /^[0-9]{10,}$/,
+                internationalCode
+                    ? "Phone number must be 7-10 digits"
+                    : "Phone number must be at least 10 digits",
+            )
+            .matches(/^[0-9]+$/, "Phone number is not valid"),
+        phoneOtp: Yup.string().optional(),
+        state: Yup.string().required("State is Required"),
+        city: Yup.string().required("City is Required"),
+        department: Yup.string().required("Department is Required"),
+        course: Yup.string().required("Course is Required"),
+        slot: Yup.string().optional(),
+        date: Yup.string().optional(),
+        cgs_name: Yup.string().optional(),
+        international_code: needInternationalCode
+            ? Yup.string()
+                  .matches(/^\+?[0-9]+$/, "Invalid international code")
+                  .required("International code is required")
+            : Yup.string().optional(),
+    });
 
 const defaultContent = {
     title: "Admissions Open 2025",
@@ -62,18 +76,14 @@ const defaultStats = [
 
 //CGS
 const CGS_DATES = {
-    May24: "May 24, 2025",
-    May25: "May 25, 2025",
+    June14: "June 14, 2025",
+    June15: "June 15, 2025",
 };
 const CGS_DETAILS = [
-    { value: "CGS-Bhopal", date: CGS_DATES.May25, desc: "Bhopal" },
-    { value: "CGS-Chandigarh", date: CGS_DATES.May25, desc: "Chandigarh" },
-    { value: "CGS-Guwahati", date: CGS_DATES.May24, desc: "Guwahati" },
-    { value: "CGS-Gwalior", date: CGS_DATES.May24, desc: "Gwalior" },
-    { value: "CGS-Kolkata", date: CGS_DATES.May25, desc: "Kolkata" },
-    { value: "CGS-Indore", date: CGS_DATES.May24, desc: "Indore" },
-    { value: "CGS-Kangra", date: CGS_DATES.May25, desc: "Kangra" },
-    { value: "CGS-Ludhiana", date: CGS_DATES.May24, desc: "Ludhiana" },
+    { value: "CGS-Lucknow", date: CGS_DATES.June15, desc: "Lucknow" },
+    { value: "CGS-Jaipur", date: CGS_DATES.June15, desc: "Jaipur" },
+    { value: "CGS-Jammu", date: CGS_DATES.June15, desc: "Jammu" },
+    { value: "CGS-Udaipur", date: CGS_DATES.June14, desc: "Udaipur" },
 ];
 
 interface HeroProps {
@@ -101,6 +111,7 @@ interface HeroProps {
     fixCity?: boolean;
     isTakingSlot?: boolean;
     internationalCode?: string;
+    needInternationalCode?: boolean;
     autoCloseOn?: Date;
     displayCGS?: boolean;
     customStatesOnly?: string[];
@@ -108,6 +119,7 @@ interface HeroProps {
         state: string;
         cities: string[];
     }[];
+    requirePhoneVerification?: boolean;
 }
 
 const Hero = ({
@@ -132,6 +144,8 @@ const Hero = ({
     displayCGS = false,
     customStatesOnly = [],
     places = PLACES,
+    requirePhoneVerification = true,
+    needInternationalCode = false,
 }: HeroProps) => {
     const [messageSentState, setMessageSentState] = useState<MessageSentState>({
         success: false,
@@ -141,9 +155,40 @@ const Hero = ({
     const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [otpError, setOtpError] = useState<string>("");
+    const [resendCooldown, setResendCooldown] = useState<number>(0);
+    const [otpResentMessage, setOtpResentMessage] = useState<boolean>(false);
+
+    // Check for nootp search parameter to override requirePhoneVerification
+    const [
+        effectiveRequirePhoneVerification,
+        setEffectiveRequirePhoneVerification,
+    ] = useState<boolean>(requirePhoneVerification);
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const noOtpParam = urlParams.get("nootp");
+        if (noOtpParam === "true") {
+            setEffectiveRequirePhoneVerification(false);
+        } else {
+            setEffectiveRequirePhoneVerification(requirePhoneVerification);
+        }
+    }, [requirePhoneVerification]);
 
     // Check if form is closed based on autoCloseOn date
     const isFormClosed = autoCloseOn ? new Date() > autoCloseOn : false;
+
+    // Handle resend cooldown timer
+    useEffect(() => {
+        let interval: ReturnType<typeof setInterval>;
+        if (resendCooldown > 0) {
+            interval = setInterval(() => {
+                setResendCooldown((prev) => prev - 1);
+            }, 1000);
+        }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [resendCooldown]);
 
     const initialValues: FormValues = {
         campus: "Dehradun",
@@ -155,9 +200,10 @@ const Hero = ({
         city: defaultStateAndCity.city,
         department: defaultDepartmentAndCourse.department,
         course: defaultDepartmentAndCourse.course,
-        slot: isTakingSlot ? "Slot4" : "",
+        slot: isTakingSlot ? "Slot7" : "",
         cgs_date: displayCGS ? Object.values(CGS_DATES)[0] : "",
         cgs_name: displayCGS ? CGS_DETAILS[0].value : "",
+        international_code: internationalCode || "",
     };
 
     const handleSendOTP = async (
@@ -165,7 +211,8 @@ const Hero = ({
         setFieldError: (field: string, message: string) => void,
     ) => {
         const phoneNumber = values.phone_number;
-        if (!phoneNumber || phoneNumber.length < 7) {
+        const minLength = internationalCode ? 7 : 10;
+        if (!phoneNumber || phoneNumber.length < minLength) {
             setFieldError("phone_number", "Please enter a valid phone number");
             return;
         }
@@ -188,6 +235,10 @@ const Hero = ({
 
             if (response.ok) {
                 setPhoneOtpSent(true);
+                setResendCooldown(10); // Start 10-second cooldown
+                setOtpResentMessage(true);
+                // Hide the "OTP resent" message after 3 seconds
+                setTimeout(() => setOtpResentMessage(false), 3000);
             } else {
                 setFieldError(
                     "phone_number",
@@ -248,7 +299,7 @@ const Hero = ({
         values: FormValues,
         { setSubmitting, setFieldError }: FormikHelpers<FormValues>,
     ) => {
-        if (!phoneVerified) {
+        if (effectiveRequirePhoneVerification && !phoneVerified) {
             setOtpError("Please verify your phone number before submitting");
             return;
         }
@@ -267,10 +318,13 @@ const Hero = ({
             second: "2-digit",
         });
 
-        const phoneNumber = internationalCode
-            ? String(`${internationalCode}${values.phone_number}`)
-            : String(values.phone_number);
-
+        const phoneNumber = needInternationalCode
+            ? values.international_code
+                ? String(`${values.international_code}${values.phone_number}`)
+                : String(values.phone_number)
+            : internationalCode
+              ? String(`${internationalCode}${values.phone_number}`)
+              : String(values.phone_number);
         const phoneWithDateAndTime = `${phoneNumber}#${today.toISOString()}`;
 
         try {
@@ -367,7 +421,11 @@ const Hero = ({
                 },
             );
 
-            setMessageSentState({ success: true, error: false });
+            // Redirect to thank you page after 2 seconds with current page params
+            setTimeout(() => {
+                const currentParams = window.location.search;
+                window.location.href = `/lp/thank-you.html${currentParams}`;
+            }, 2000);
         } catch (err) {
             setMessageSentState({ success: false, error: true });
         } finally {
@@ -418,18 +476,19 @@ const Hero = ({
                         "mx-auto min-h-[30rem] max-w-[22rem] min-w-[22rem] scroll-m-10 flex-col items-center justify-center rounded-3xl border-2 border-zinc-200 bg-white/50 px-8 py-12 text-zinc-800 backdrop-blur-lg sm:mr-0",
                         {
                             "bg-white/5 backdrop-blur-xl":
-                                messageSentState.success ||
-                                messageSentState.error ||
-                                isFormClosed,
+                                messageSentState.error || isFormClosed,
                         },
                     )}
                 >
                     {isFormClosed ? (
                         <FormClosedMessage />
-                    ) : !messageSentState.success && !messageSentState.error ? (
+                    ) : !messageSentState.error ? (
                         <Formik
                             initialValues={initialValues}
-                            validationSchema={formSchema}
+                            validationSchema={createFormSchema(
+                                needInternationalCode,
+                                internationalCode,
+                            )}
                             onSubmit={handleSubmit}
                         >
                             {({
@@ -536,25 +595,39 @@ const Hero = ({
                                     />
                                     <div className="flex w-full flex-col gap-2">
                                         <div className="flex w-full gap-2">
-                                            {internationalCode && (
-                                                <div className="w-1/4">
-                                                    <label
-                                                        htmlFor="international_code"
-                                                        className="ml-2 text-sm font-medium"
-                                                    >
-                                                        Code
-                                                    </label>
-                                                    <div
-                                                        id="international_code"
-                                                        className="w-full rounded-md border-2 border-zinc-300 bg-white p-2 font-medium text-zinc-800"
-                                                    >
-                                                        +{internationalCode}
+                                            {internationalCode &&
+                                                !needInternationalCode && (
+                                                    <div className="w-1/4">
+                                                        <label
+                                                            htmlFor="international_code"
+                                                            className="ml-2 text-sm font-medium"
+                                                        >
+                                                            Code
+                                                        </label>
+                                                        <div
+                                                            id="international_code"
+                                                            className="w-full rounded-md border-2 border-zinc-300 bg-white p-2 font-medium text-zinc-800"
+                                                        >
+                                                            +{internationalCode}
+                                                        </div>
                                                     </div>
+                                                )}
+                                            {needInternationalCode && (
+                                                <div className="w-1/4">
+                                                    <FormField
+                                                        name="international_code"
+                                                        label="Code"
+                                                        placeholder="+91"
+                                                        errors={errors}
+                                                        touched={touched}
+                                                    />
                                                 </div>
                                             )}
                                             <div
                                                 className={
-                                                    internationalCode
+                                                    (internationalCode &&
+                                                        !needInternationalCode) ||
+                                                    needInternationalCode
                                                         ? "w-3/4"
                                                         : "w-full"
                                                 }
@@ -574,43 +647,74 @@ const Hero = ({
                                             </div>
                                         </div>
 
-                                        <div className="flex justify-end">
-                                            {phoneVerified ? (
-                                                <div className="flex items-center gap-1 text-sm font-semibold text-green-600">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-4 w-4"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                    Phone Verified
-                                                </div>
-                                            ) : phoneOtpSent ? (
-                                                <div className="flex gap-2">
+                                        {effectiveRequirePhoneVerification && (
+                                            <div className="flex justify-end">
+                                                {phoneVerified ? (
+                                                    <div className="flex items-center gap-1 text-sm font-semibold text-green-600">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="h-4 w-4"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                        Phone Verified
+                                                    </div>
+                                                ) : phoneOtpSent ? (
+                                                    <div className="flex gap-2">
+                                                        <button
+                                                            type="button"
+                                                            className="text-sm font-medium text-blue-600"
+                                                            onClick={() => {
+                                                                setPhoneOtpSent(
+                                                                    false,
+                                                                );
+                                                                setFieldValue(
+                                                                    "phoneOtp",
+                                                                    "",
+                                                                );
+                                                            }}
+                                                        >
+                                                            Edit Phone
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className={cn(
+                                                                "text-sm font-medium text-blue-600",
+                                                                {
+                                                                    "cursor-not-allowed opacity-50":
+                                                                        resendCooldown >
+                                                                            0 ||
+                                                                        submitting ||
+                                                                        isSubmitting,
+                                                                },
+                                                            )}
+                                                            onClick={() =>
+                                                                handleSendOTP(
+                                                                    values,
+                                                                    setFieldError,
+                                                                )
+                                                            }
+                                                            disabled={
+                                                                resendCooldown >
+                                                                    0 ||
+                                                                submitting ||
+                                                                isSubmitting
+                                                            }
+                                                        >
+                                                            {resendCooldown > 0
+                                                                ? `Resend OTP (${resendCooldown}s)`
+                                                                : "Resend OTP"}
+                                                        </button>
+                                                    </div>
+                                                ) : (
                                                     <button
                                                         type="button"
-                                                        className="text-sm font-medium text-blue-600"
-                                                        onClick={() => {
-                                                            setPhoneOtpSent(
-                                                                false,
-                                                            );
-                                                            setFieldValue(
-                                                                "phoneOtp",
-                                                                "",
-                                                            );
-                                                        }}
-                                                    >
-                                                        Edit Phone
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="text-sm font-medium text-blue-600"
                                                         onClick={() =>
                                                             handleSendOTP(
                                                                 values,
@@ -619,96 +723,92 @@ const Hero = ({
                                                         }
                                                         disabled={
                                                             submitting ||
+                                                            !values.phone_number ||
                                                             isSubmitting
                                                         }
+                                                        className={cn(
+                                                            "rounded-md bg-secondary px-3 py-1 text-sm font-medium text-white",
+                                                            {
+                                                                "cursor-not-allowed opacity-50":
+                                                                    submitting ||
+                                                                    !values.phone_number ||
+                                                                    isSubmitting,
+                                                            },
+                                                        )}
                                                     >
-                                                        Resend OTP
+                                                        Send OTP
                                                     </button>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {effectiveRequirePhoneVerification &&
+                                            phoneOtpSent &&
+                                            !phoneVerified && (
+                                                <div className="mt-2">
+                                                    <div className="flex gap-2">
+                                                        <div className="flex-1">
+                                                            <FormField
+                                                                name="phoneOtp"
+                                                                label="OTP"
+                                                                placeholder="Enter OTP"
+                                                                errors={errors}
+                                                                touched={
+                                                                    touched
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <div className="mb-3 self-end">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    handleVerifyOTP(
+                                                                        values,
+                                                                        setFieldError,
+                                                                    )
+                                                                }
+                                                                disabled={
+                                                                    submitting ||
+                                                                    !values.phoneOtp ||
+                                                                    isSubmitting
+                                                                }
+                                                                className={cn(
+                                                                    "h-[42px] rounded-lg bg-secondary px-3 py-2 font-medium text-white",
+                                                                    {
+                                                                        "cursor-not-allowed opacity-50":
+                                                                            submitting ||
+                                                                            !values.phoneOtp ||
+                                                                            isSubmitting,
+                                                                    },
+                                                                )}
+                                                            >
+                                                                Verify
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            ) : (
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleSendOTP(
-                                                            values,
-                                                            setFieldError,
-                                                        )
-                                                    }
-                                                    disabled={
-                                                        submitting ||
-                                                        !values.phone_number ||
-                                                        isSubmitting
-                                                    }
-                                                    className={cn(
-                                                        "rounded-md bg-secondary px-3 py-1 text-sm font-medium text-white",
-                                                        {
-                                                            "cursor-not-allowed opacity-50":
-                                                                submitting ||
-                                                                !values.phone_number ||
-                                                                isSubmitting,
-                                                        },
-                                                    )}
-                                                >
-                                                    Send OTP
-                                                </button>
                                             )}
-                                        </div>
 
-                                        {phoneOtpSent && !phoneVerified && (
-                                            <div className="mt-2">
-                                                <div className="flex gap-2">
-                                                    <div className="flex-1">
-                                                        <FormField
-                                                            name="phoneOtp"
-                                                            label="OTP"
-                                                            placeholder="Enter OTP"
-                                                            errors={errors}
-                                                            touched={touched}
-                                                        />
-                                                    </div>
-                                                    <div className="mb-3 self-end">
-                                                        <button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                handleVerifyOTP(
-                                                                    values,
-                                                                    setFieldError,
-                                                                )
-                                                            }
-                                                            disabled={
-                                                                submitting ||
-                                                                !values.phoneOtp ||
-                                                                isSubmitting
-                                                            }
-                                                            className={cn(
-                                                                "h-[42px] rounded-lg bg-secondary px-3 py-2 font-medium text-white",
-                                                                {
-                                                                    "cursor-not-allowed opacity-50":
-                                                                        submitting ||
-                                                                        !values.phoneOtp ||
-                                                                        isSubmitting,
-                                                                },
-                                                            )}
-                                                        >
-                                                            Verify
-                                                        </button>
-                                                    </div>
+                                        {effectiveRequirePhoneVerification &&
+                                            otpError && (
+                                                <div className="flex items-center justify-start gap-1 text-sm text-red-700">
+                                                    <img
+                                                        src={
+                                                            ExclamationTriangleIcon.src
+                                                        }
+                                                        className="h-4 w-4"
+                                                        alt="Error"
+                                                    />
+                                                    {otpError}
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
 
-                                        {otpError && (
-                                            <div className="flex items-center justify-start gap-1 text-sm text-red-700">
-                                                <img
-                                                    src={
-                                                        ExclamationTriangleIcon.src
-                                                    }
-                                                    className="h-4 w-4"
-                                                    alt="Error"
-                                                />
-                                                {otpError}
-                                            </div>
-                                        )}
+                                        {effectiveRequirePhoneVerification &&
+                                            otpResentMessage && (
+                                                <div className="text-xs font-medium text-green-600">
+                                                    OTP has been resent
+                                                </div>
+                                            )}
                                     </div>
 
                                     {defaultStateAndCity.hidden === false && (
@@ -795,14 +895,14 @@ const Hero = ({
                                             <SelectField
                                                 name="department"
                                                 label="Department"
-                                                options={DEPARTMENTS.filter(
-                                                    (d) =>
-                                                        d.university ===
-                                                        values.campus,
-                                                ).map((d) => ({
-                                                    value: d.name,
-                                                    label: d.name.split("-")[0],
-                                                }))}
+                                                options={DEPARTMENTS.map(
+                                                    (d) => ({
+                                                        value: d.name,
+                                                        label: d.name.split(
+                                                            "-",
+                                                        )[0],
+                                                    }),
+                                                )}
                                                 errors={errors}
                                                 touched={touched}
                                                 onChange={(
@@ -812,8 +912,6 @@ const Hero = ({
                                                         "department",
                                                         e.target.value,
                                                     );
-
-                                                    // Updating Course also as per the department
                                                     setFieldValue(
                                                         "course",
                                                         DEPARTMENTS.find(
@@ -858,8 +956,8 @@ const Hero = ({
                                             label="Slot"
                                             options={[
                                                 {
-                                                    value: "Slot4",
-                                                    label: "Slot 4",
+                                                    value: "Slot7",
+                                                    label: "Slot 7",
                                                 },
                                             ]}
                                             onChange={(
@@ -970,12 +1068,15 @@ const Hero = ({
                                                     "cursor-wait text-zinc-400 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-400":
                                                         isSubmitting,
                                                     "cursor-not-allowed opacity-50":
+                                                        effectiveRequirePhoneVerification &&
                                                         !phoneVerified &&
                                                         !isSubmitting,
                                                 },
                                             )}
                                             disabled={
-                                                isSubmitting || !phoneVerified
+                                                isSubmitting ||
+                                                (effectiveRequirePhoneVerification &&
+                                                    !phoneVerified)
                                             }
                                         >
                                             {isSubmitting && (
@@ -996,8 +1097,6 @@ const Hero = ({
                                 </Form>
                             )}
                         </Formik>
-                    ) : messageSentState.success ? (
-                        <SuccessMessage />
                     ) : (
                         <ErrorMessage />
                     )}
@@ -1105,22 +1204,6 @@ const SelectField = ({
                 {errors[name]}
             </div>
         )}
-    </div>
-);
-
-const SuccessMessage = () => (
-    <div className="flex h-full items-center justify-center text-lg text-white">
-        <div className="flex items-start gap-2">
-            <img
-                src={CheckCircleIcon.src}
-                className="mt-1 w-14"
-                alt="Success"
-            />
-            <div>
-                We&apos;ve received your enquiry, one of our counselors will
-                contact you shortly!
-            </div>
-        </div>
     </div>
 );
 
