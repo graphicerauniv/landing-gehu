@@ -5696,8 +5696,8 @@ export const DEPARTMENTS = [
         university: "Dehradun",
         courses: [
             "Master of Fine Arts",
-            "Bachelor of Design (User Experience and Interaction Design)",
-            "Bachelor of Design (Product Design)",
+            "B.Des (User Experience and Interaction Design)",
+            "B.Des (Industrial Product Design)",
             "Bachelor of Fine Arts",
         ],
     },
@@ -5706,7 +5706,8 @@ export const DEPARTMENTS = [
         university: "Dehradun",
         courses: [
             "M.Sc. Animation & Multimedia",
-            "B.Design Animation and Gaming",
+            "B.Des (Animation and Gaming)",
+            "B.Des (Graphic and Visual Communication)",
             "B.Sc. in Animation and Gaming",
         ],
     },
