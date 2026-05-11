@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import geuWhite from "../../assets/geu-white.svg";
 
 const defaultContent = {
-    title: "Admissions Open 2025",
+    title: "Admissions Open 2026",
     description:
         "Begin your Career at the university with consistently high placements records. Top recruiters include Amazon, Google, Atlassian, Flipkart, PayPal, Visa.",
 };
