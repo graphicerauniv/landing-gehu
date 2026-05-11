@@ -328,6 +328,40 @@
     cursor: default;
   }
 
+.npf_wgts {
+  width: 100%;
+  min-height: 580px;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.28);
+}
+
+.npf_wgts:empty::before {
+  display: flex;
+  min-height: 580px;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #334155;
+  font-weight: 700;
+  text-align: center;
+  content: "Loading application form...";
+}
+
+.npf_wgts iframe {
+  width: 100% !important;
+  min-height: 580px !important;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .npf_wgts,
+  .npf_wgts:empty::before,
+  .npf_wgts iframe {
+    min-height: 640px !important;
+  }
+}
 
 
 
