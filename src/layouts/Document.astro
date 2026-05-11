@@ -104,5 +104,12 @@ const { title, description } = Astro.props;
     </head>
     <body>
         <slot />
+        <script type="text/javascript">
+            var s = document.createElement("script");
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://widgets.in4.nopaperforms.com/emwgts.js";
+            document.body.appendChild(s);
+        </script>
     </body>
 </html>

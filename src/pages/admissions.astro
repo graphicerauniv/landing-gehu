@@ -23,13 +23,6 @@ import { apply as course } from "../data/courses.ts";
     <Landing>
         <!-- It is possible to overwrite to hide course and department section -->
         <Hero campaignSource="GENERIC-HILL" />
-        <script is:inline type="text/javascript">
-            var s = document.createElement("script");
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://widgets.in4.nopaperforms.com/emwgts.js";
-            document.body.appendChild(s);
-        </script>
 
         <!-- It is possible ot only display one department -->
         <Courses client:load />

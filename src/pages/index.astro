@@ -18,13 +18,6 @@ import { apply as course } from "../data/courses.ts";
 <Document title={course.meta.title} description={course.meta.description}>
     <Landing>
         <Hero campaignSource="GENERIC-HILL" />
-        <script is:inline type="text/javascript">
-            var s = document.createElement("script");
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://widgets.in4.nopaperforms.com/emwgts.js";
-            document.body.appendChild(s);
-        </script>
 
         <Courses client:load />
 
