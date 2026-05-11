@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import geuWhite from "../../assets/geu-white.svg";
 
 const defaultContent = {
@@ -34,21 +32,8 @@ interface HeroProps {
 }
 
 const NPF_WIDGET_ID = "2f0a30a499717e5dc56cf4ee3706aa38";
-const NPF_SCRIPT_ID = "nopaperforms-widget-script";
-const NPF_SCRIPT_SRC = "https://widgets.in4.nopaperforms.com/emwgts.js";
 
 const Hero = ({ content = defaultContent, stats = defaultStats }: HeroProps) => {
-    useEffect(() => {
-        if (document.getElementById(NPF_SCRIPT_ID)) return;
-
-        const script = document.createElement("script");
-        script.id = NPF_SCRIPT_ID;
-        script.type = "text/javascript";
-        script.async = true;
-        script.src = NPF_SCRIPT_SRC;
-        document.body.appendChild(script);
-    }, []);
-
     return (
         <div className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.1),rgba(0,0,0,0.4),rgba(0,0,0,0.5)),url('/lp/bg.webp')] bg-cover bg-center bg-no-repeat pb-12 sm:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.2),rgba(0,0,0,0.3),rgba(0,0,0,0.6)),url('/lp/bg.webp')] sm:pb-0">
             <div className="flex max-w-6xl flex-col items-center justify-between px-2 py-8 pt-20 text-white sm:mx-auto sm:flex-row">
