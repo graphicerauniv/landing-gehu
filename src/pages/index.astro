@@ -17,7 +17,14 @@ import { apply as course } from "../data/courses.ts";
 
 <Document title={course.meta.title} description={course.meta.description}>
     <Landing>
-        <Hero campaignSource="GENERIC-HILL" />
+        <Hero campaignSource="GENERIC-HILL">
+            <div
+                class="npf_wgts"
+                data-height="400px"
+                data-w="0fbd2a389052cbcbd8ba56e626b93a46"
+            >
+            </div>
+        </Hero>
 
         <Courses client:load />
 

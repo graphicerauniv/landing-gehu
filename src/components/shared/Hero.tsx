@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import geuWhite from "../../assets/geu-white.svg";
 
 const defaultContent = {
@@ -29,11 +31,14 @@ interface HeroProps {
         label: string;
         withStar?: boolean;
     }[];
+    children?: ReactNode;
 }
 
-const NPF_WIDGET_ID = "0fbd2a389052cbcbd8ba56e626b93a46";
-
-const Hero = ({ content = defaultContent, stats = defaultStats }: HeroProps) => {
+const Hero = ({
+    content = defaultContent,
+    stats = defaultStats,
+    children,
+}: HeroProps) => {
     return (
         <div className="bg-[linear-gradient(to_bottom,rgba(0,0,0,0.1),rgba(0,0,0,0.4),rgba(0,0,0,0.5)),url('/lp/bg.webp')] bg-cover bg-center bg-no-repeat pb-12 sm:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.2),rgba(0,0,0,0.3),rgba(0,0,0,0.6)),url('/lp/bg.webp')] sm:pb-0">
             <div className="flex max-w-6xl flex-col items-center justify-between px-2 py-8 pt-20 text-white sm:mx-auto sm:flex-row">
@@ -71,13 +76,7 @@ const Hero = ({ content = defaultContent, stats = defaultStats }: HeroProps) => 
                     </div>
                 </div>
 
-                <div className="mx-auto min-h-[400px] w-full max-w-[24rem] min-w-0 rounded-3xl border-2 border-zinc-200 bg-white/80 px-4 py-6 text-zinc-800 shadow-xl backdrop-blur-lg sm:mr-0 sm:min-w-[22rem]">
-                    <div
-                        className="npf_wgts"
-                        data-height="400px"
-                        data-w={NPF_WIDGET_ID}
-                    />
-                </div>
+                {children}
             </div>
         </div>
     );
