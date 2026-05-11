@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
             badgeClass: "badge-blue",
             bgClass: "bg-blue-100",
             title: "Serenity Amidst the Shivaliks",
-            image: "/lp/Images/hero2.jpeg",
+            image: "/lp/admissions/Images/hero2.jpeg",
             desc: "The flagship campus of Graphic Era is housed in the scenic valley of Dehradun, bordered by Rajaji National Park. It features world-class labs and an ecosystem that consistently produces top-tier global placements.",
             stats: [{ icon: "🏫", label: "76+ Courses" }, { icon: "📍", label: "Clement Town" }]
         },
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
             badgeClass: "badge-emerald",
             bgClass: "bg-emerald-100",
             title: "Learning in the Kumaon Foothills",
-            image: "/lp/Images/gehu-bhimtal.jpg",
+            image: "/lp/admissions/Images/gehu-bhimtal.jpg",
             desc: "Nestled along Sattal Road, the Bhimtal campus offers a serene, lush green environment perfect for deep focus. It is designed as a self-contained community fostering innovation amidst the tranquility of the Himalayas.",
             stats: [{ icon: "🏔️", label: "Scenic View" }, { icon: "🍃", label: "Eco-Friendly" }]
         },
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             badgeClass: "badge-orange",
             bgClass: "bg-orange-100",
             title: "Gateway to Academic Innovation",
-            image: "/lp/Images/gehu-haldwani.jpg",
+            image: "/lp/admissions/Images/gehu-haldwani.jpg",
             desc: "Located in the bustling commercial market of Haldwani, this campus combines urban convenience with academic rigor. It features modern lecture theatres and dynamic sports fields.",
             stats: [{ icon: "🏢", label: "City Centric" }, { icon: "⚡", label: "High Energy" }]
         }

@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const accreditations = [
     {
-      logo: "/lp/Images/aicte.svg",
+      logo: "/lp/admissions/Images/aicte.svg",
       title: "AICTE Approval",
       description:
         "Approved by AICTE, Graphic Era ensures academic excellence across all technical courses. UGC recognized with Regularized Status by the Ministry of Education."
     },
     {
-      logo: "/lp/Images/ugc.svg",
+      logo: "/lp/admissions/Images/ugc.svg",
       title: "UGC Recognition",
       description:
         "Approved by UGC and accorded the coveted Regularized Status by the Ministry of Education, Government of India."

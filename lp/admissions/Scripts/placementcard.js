@@ -3,31 +3,31 @@ const placementData = [
         name: "Gunjan Bhanwal",
         package: "₹66.01L",
         company: "Atlassian",
-        img: "/lp/Images/Gunjan_Bhanwal.jpg"
+        img: "/lp/admissions/Images/Gunjan_Bhanwal.jpg"
     },
     {
         name: "Prerna Badoni",
         package: "₹56.00L",
         company: "Microsoft",
-        img: "/lp/Images/Prerna_Badoni.jpg"
+        img: "/lp/admissions/Images/Prerna_Badoni.jpg"
     },
     {
         name: "Rakshit Benjwal",
         package: "₹56.00L",
         company: "Microsoft",
-        img: "/lp/Images/Rakshit_Benjwal.jpg"
+        img: "/lp/admissions/Images/Rakshit_Benjwal.jpg"
     },
     {
         name: "Palak Aggarwal",
         package: "₹54.84L",
         company: "Google",
-        img: "/lp/Images/Palak_Aggarwal.jpg"
+        img: "/lp/admissions/Images/Palak_Aggarwal.jpg"
     },
     {
         name: "Vibha Chandola",
         package: "₹54.84L",
         company: "Google",
-        img: "/lp/Images/Vibha_Chandola.jpg"
+        img: "/lp/admissions/Images/Vibha_Chandola.jpg"
     }
 ];
 

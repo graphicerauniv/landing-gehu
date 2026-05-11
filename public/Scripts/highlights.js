@@ -3,13 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             id: "card-1",
             title: "Global Exposure Programs",
-            image: "/lp/Images/global-program.png",
+            image: "/lp/admissions/Images/global-program.png",
             text: "International collaborations, student exchange programs, and global internship opportunities to broaden your horizons and build an international career. Our partnerships span across universities in the USA, UK, and Europe."
         },
         {
             id: "card-2",
             title: "Specialized Teaching from Experts",
-            image: "/lp/Images/expert-teachers.jpg",
+            image: "/lp/admissions/Images/expert-teachers.jpg",
             text: "The academic rigor and the task of creative transformation of an individual are the center pieces of this program. Our faculty includes industry veterans and Ph.D. scholars who bring real-world case studies."
         },
         {
