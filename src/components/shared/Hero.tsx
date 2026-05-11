@@ -31,7 +31,7 @@ interface HeroProps {
     }[];
 }
 
-const NPF_WIDGET_ID = "2f0a30a499717e5dc56cf4ee3706aa38";
+const NPF_WIDGET_ID = "0fbd2a389052cbcbd8ba56e626b93a46";
 
 const Hero = ({ content = defaultContent, stats = defaultStats }: HeroProps) => {
     return (
