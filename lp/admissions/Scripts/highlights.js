@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             id: "card-1",
             title: "Global Exposure Programs",
-            image: "/lp/admissions/Images/global-program.png",
+            image: "/lp/admissions/Images/international-students.jpg",
             text: "International collaborations, student exchange programs, and global internship opportunities to broaden your horizons and build an international career. Our partnerships span across universities in the USA, UK, and Europe."
         },
         {
@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             id: "card-3",
             title: "Top Internships and Placements",
-            image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1000",
+            image: "/lp/admissions/Images/top-placements.jpg",
             text: "We have held great pride in being one of the first few private Universities in India who took on the task of ensuring Top of the Line placements. With recruiters like Amazon, Adobe, and Microsoft."
         },
         {
             id: "card-4",
             title: "Advanced Research Labs",
-            image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000",
+            image: "/lp/admissions/Images/advanced-lab.jpeg",
             text: "Our state-of-the-art research facilities allow students to work on breakthrough technologies, from AI and Machine Learning to Sustainable Energy solutions, guided by world-class mentors."
         }
     ];
