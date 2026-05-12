@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Specialized Teaching from Experts",
             image: "/lp/admissions/Images/expert-teachers.jpg",
             text: "The academic rigor and the task of creative transformation of an individual are the center pieces of this program. Our faculty includes industry veterans and Ph.D. scholars who bring real-world case studies."
-        },//
+        },
         {
             id: "card-3",
             title: "Top Internships and Placements",
